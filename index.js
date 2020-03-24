@@ -91,25 +91,6 @@ app.use(corsMiddleWare());
 
 const authMiddleWare = require("./auth/middleware");
 
-/**
- * Routes
- *
- * Define your routes here (now that middlewares are configured)
- */
-
-// GET endpoint for testing purposes, can be removed
-app.get("/", (req, res) => {
-  res.send("Hi from express");
-});
-
-// POST endpoint for testing purposes, can be removed
-app.post("/echo", (req, res) => {
-  res.json({
-    youPosted: {
-      ...req.body
-    }
-  });
-});
 
 // POST endpoint which requires a token for testing purposes, can be removed
 app.post("/authorized_post_request", authMiddleWare, (req, res) => {
@@ -130,6 +111,13 @@ app.post("/authorized_post_request", authMiddleWare, (req, res) => {
 
 const authRouter = require("./routers/auth");
 app.use("/", authRouter);
+
+const homepageRouter = require('./routers/homepage');
+app.use('/homepage', homepageRouter);
+
+const storyRouter = require('./routers/story');
+app.use('/homepage/stories', storyRouter);
+
 
 // Listen for connections on specified port (default is port 4000)
 const { PORT } = require("./config/constants");
