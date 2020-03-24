@@ -7,6 +7,11 @@ router.get('/:id', async (req, res) => {
   res.status(200).json(allStories);
 })
 
+router.post('/', async (req, res) => {
+  console.log('req.body inside post: ', req.body)
+  res.status(200).json('Thanks!')
+})
+
 module.exports = router;
 
 //{ where: { homepageId: request.body.homepageId } }
