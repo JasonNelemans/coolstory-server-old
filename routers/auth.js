@@ -4,6 +4,8 @@ const { toJWT } = require("../auth/jwt");
 const authMiddleware = require("../auth/middleware");
 const User = require("../models/").user;
 const { SALT_ROUNDS } = require("../config/constants");
+const Story = require('../models').story;
+const Homepage = require('../models').homepage;
 
 const router = new Router();
 
@@ -18,6 +20,10 @@ router.post("/login", async (req, res, next) => {
     }
 
     const user = await User.findOne({ where: { email } });
+    const homepage = await Homepage.findOne({ where: { userId: user.id } });
+    const story = await Story.findAll({ where: { homepageId: homepage.id } });
+    console.log('homepage inside express /login: ', homepage.dataValues);
+    console.log('story inside express /login: ', story);
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(400).send({
@@ -27,7 +33,7 @@ router.post("/login", async (req, res, next) => {
 
     delete user.dataValues["password"]; // don't send back the password hash
     const token = toJWT({ userId: user.id });
-    return res.status(200).send({ token, ...user.dataValues });
+    return res.status(200).send({ token, ...user.dataValues, homepage: homepage, stories: story });
   } catch (error) {
     console.log(error);
     return res.status(400).send({ message: "Something went wrong, sorry" });
