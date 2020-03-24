@@ -7,4 +7,9 @@ router.get('/', async (req, res) => {
   res.status(200).json(allHomepages);
 })
 
+router.get('/:id', async (req, res) => {
+  const homepage = await Homepage.findAll({where: { id: req.params.id } });
+  res.status(200).json(homepage);
+})
+
 module.exports = router;
