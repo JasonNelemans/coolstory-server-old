@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const Homepage = require('../models').homepage
 const Story = require('../models').story
+const authMiddleware = require('../auth/middleware');
 const router = new Router();
 
 router.get('/', async (req, res) => {
@@ -17,7 +18,7 @@ router.get('/:id', async (req, res) => {
   res.status(200).json(homepage);
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', authMiddleware, async (req, res) => {
   try {
     const {title, description, color, backgroundColor, id} = req.body
 
