@@ -4,7 +4,9 @@ const authMiddleware = require('../auth/middleware');
 const router = new Router();
 
 router.get('/:id', async (req, res) => {
-  const allStories = await Story.findAll({where: { homepageId: req.params.id } });
+  const allStories = await Story.findAll({
+    where: { homepageId: req.params.id }, 
+    order: [ ['createdAt', 'DESC'] ] });
   res.status(200).json(allStories);
 })
 
@@ -17,7 +19,7 @@ router.post('/', authMiddleware, async (req, res) => {
     imageUrl,
     homepageId
   })
-  console.log('new Story: ', newStory.dataValues);
+
   res.status(200).json(newStory.dataValues);
 })
 
