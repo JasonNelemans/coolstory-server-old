@@ -31,9 +31,11 @@ router.patch('/:id', async (req, res) => {
       where: { id }
     })
 
-    
+    const returnHomepage = await Homepage.findAll({
+      where: { id }
+    })
 
-    res.json(updatedHomepage);
+    res.json(returnHomepage);
   }
   catch (error) {
     console.log('error: ', error)
