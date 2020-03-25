@@ -83,7 +83,7 @@ router.get("/me", authMiddleware, async (req, res) => {
   delete req.user.dataValues["password"];
 
   const homepage = await Homepage.findOne({ where: { userId: req.user.dataValues.id } });
-  const story = await Story.findAll({ where: { homepageId: homepage.id } });
+  const story = await Story.findAll({ where: { homepageId: homepage.id }, order: [ ['createdAt', 'DESC'] ] });
   res.status(200).send({ ...req.user.dataValues, homepage: homepage, stories: story });
 });
 
