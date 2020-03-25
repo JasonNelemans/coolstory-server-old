@@ -18,8 +18,26 @@ router.get('/:id', async (req, res) => {
 })
 
 router.patch('/:id', async (req, res) => {
-  console.log('req.body received: ', req.body)
-  res.status(200).json('Hello from patch')
+  try {
+    const {title, description, color, backgroundColor, id} = req.body
+
+    const updatedHomepage = await Homepage.update({
+      title,
+      description,
+      color, 
+      backgroundColor,
+    }, 
+    {
+      where: { id }
+    })
+
+    
+
+    res.json(updatedHomepage);
+  }
+  catch (error) {
+    console.log('error: ', error)
+  }
 })
 
 module.exports = router;
