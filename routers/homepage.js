@@ -17,4 +17,9 @@ router.get('/:id', async (req, res) => {
   res.status(200).json(homepage);
 })
 
+router.patch('/:id', async (req, res) => {
+  console.log('req.body received: ', req.body)
+  res.status(200).json('Hello from patch')
+})
+
 module.exports = router;
