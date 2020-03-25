@@ -22,8 +22,6 @@ router.post("/login", async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
     const homepage = await Homepage.findOne({ where: { userId: user.id } });
     const story = await Story.findAll({ where: { homepageId: homepage.id } });
-    console.log('homepage inside express /login: ', homepage.dataValues);
-    console.log('story inside express /login: ', story);
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(400).send({
@@ -83,7 +81,7 @@ router.post("/signup", async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   // don't send back the password hash
   delete req.user.dataValues["password"];
-  console.log('req.user.datavalues in /me: ', req.user.dataValues.id)
+
   const homepage = await Homepage.findOne({ where: { userId: req.user.dataValues.id } });
   const story = await Story.findAll({ where: { homepageId: homepage.id } });
   res.status(200).send({ ...req.user.dataValues, homepage: homepage, stories: story });
