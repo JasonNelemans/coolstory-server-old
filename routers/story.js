@@ -13,5 +13,3 @@ router.post('/', async (req, res) => {
 })
 
 module.exports = router;
-
-//{ where: { homepageId: request.body.homepageId } }
